@@ -28,7 +28,7 @@ public class BlocksGUI {
     }
 
     public void openGUI(Player player, int page){
-        Inventory gui = Bukkit.createInventory(null, 9*6, Component.text("All Blocks List"));
+        Inventory gui = Bukkit.createInventory(null, 9*6, Component.text("Blocks List"));
 
         PersistentDataContainer pdc = player.getPersistentDataContainer();
 
@@ -38,12 +38,12 @@ public class BlocksGUI {
                     "all");
         }
 
-        if (pdc.get(new NamespacedKey(plugin, "blocks_filter"), PersistentDataType.STRING).equals("all")){
+        if (Objects.equals(pdc.get(new NamespacedKey(plugin, "blocks_filter"), PersistentDataType.STRING), "all")){
             showAllBlocks(gui, player, page);
-        } else if (pdc.get(new NamespacedKey(plugin, "blocks_filter"), PersistentDataType.STRING).equals("collected")){
-            //showCollectedBlocks(gui, player, page);
-        } else if (pdc.get(new NamespacedKey(plugin, "blocks_filter"), PersistentDataType.STRING).equals("not_collected")){
-            //showNotCollectedBlocks(gui, player, page);
+        } else if (Objects.equals(pdc.get(new NamespacedKey(plugin, "blocks_filter"), PersistentDataType.STRING), "collected")){
+            showCollectedBlocks(gui, player, page);
+        } else if (Objects.equals(pdc.get(new NamespacedKey(plugin, "blocks_filter"), PersistentDataType.STRING), "not_collected")){
+            showNotCollectedBlocks(gui, player, page);
         } else {
             player.sendMessage(Component.text("There was an error initializing the GUI, contact TheFox580 if that error persists.\nERROR_CODE:NO_FILTER_SETTING_FOUND", NamedTextColor.RED));
         }
@@ -55,13 +55,13 @@ public class BlocksGUI {
         List<Material> allBlocks = plugin.getMech().getAllBlocks();
 
         List<ItemStack> blocks = new ArrayList<>();
-        int index = (page-1)*35;
+        int index = 45*(page-1);
         while (index < allBlocks.size() && blocks.size() < 9*5){
             ItemStack item = ItemStack.of(allBlocks.get(index));
             ItemMeta itemMeta = item.getItemMeta();
             itemMeta.customName(item.effectiveName().color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false));
             if (plugin.getMech().wasFound(player, item.getType())){
-                itemMeta.addEnchant(Enchantment.MENDING, 0, true);
+                itemMeta.addEnchant(Enchantment.MENDING, 1, true);
                 itemMeta.customName(Objects.requireNonNull(itemMeta.customName()).append(Component.text(" (Completed)")));
                 itemMeta.customName(Objects.requireNonNull(itemMeta.customName()).color(NamedTextColor.GREEN));
             }
@@ -71,7 +71,56 @@ public class BlocksGUI {
             blocks.add(item);
             index++;
         }
-        for (ItemStack itemStack : blocks){
+
+        createFinalGUIPart(gui, player, page, blocks, index, allBlocks.size());
+
+    }
+
+    private void showCollectedBlocks(Inventory gui, Player player, int page){
+        List<Material> collectedBlocks = plugin.getMech().getCollectedBlocks(player);
+
+        List<ItemStack> blocks = new ArrayList<>();
+        int index = 45*(page-1);
+        while (index < collectedBlocks.size() && blocks.size() < 9*5){
+            ItemStack item = ItemStack.of(collectedBlocks.get(index));
+            ItemMeta itemMeta = item.getItemMeta();
+            itemMeta.customName(item.effectiveName().color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false));
+            itemMeta.addEnchant(Enchantment.MENDING, 1, true);
+            itemMeta.customName(Objects.requireNonNull(itemMeta.customName()).append(Component.text(" (Completed)")));
+            itemMeta.customName(Objects.requireNonNull(itemMeta.customName()).color(NamedTextColor.GREEN));
+
+            item.setItemMeta(itemMeta);
+
+            blocks.add(item);
+            index++;
+        }
+
+        createFinalGUIPart(gui, player, page, blocks, index, collectedBlocks.size());
+
+    }
+
+    private void showNotCollectedBlocks(Inventory gui, Player player, int page){
+        List<Material> notCollectedBlocks = plugin.getMech().getNotCollectedBlocks(player);
+
+        List<ItemStack> blocks = new ArrayList<>();
+        int index = 45*(page-1);
+        while (index < notCollectedBlocks.size() && blocks.size() < 9*5){
+            ItemStack item = ItemStack.of(notCollectedBlocks.get(index));
+            ItemMeta itemMeta = item.getItemMeta();
+            itemMeta.customName(item.effectiveName().color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false));
+
+            item.setItemMeta(itemMeta);
+
+            blocks.add(item);
+            index++;
+        }
+
+        createFinalGUIPart(gui, player, page, blocks, index, notCollectedBlocks.size());
+
+    }
+
+    private void createFinalGUIPart(Inventory gui, Player player, int page, List<ItemStack> shownBlocks, int finalIndex, int sizeList){
+        for (ItemStack itemStack : shownBlocks){
             gui.addItem(itemStack);
         }
 
@@ -79,8 +128,9 @@ public class BlocksGUI {
             createPrevPage(gui, page);
         }
         createFilter(gui, player);
-        createNextPage(gui, page);
-
+        if (finalIndex < sizeList){
+            createNextPage(gui, page);
+        }
     }
 
     private void createNextPage(Inventory gui, int currentPage){
@@ -99,10 +149,14 @@ public class BlocksGUI {
         ItemStack filter = ItemStack.of(Material.HOPPER);
         ItemMeta filterMeta = filter.getItemMeta();
         filterMeta.displayName(Component.text("Previous Page", NamedTextColor.WHITE).decoration(TextDecoration.ITALIC, false));
-        filterMeta.lore(createFilterLore(player, filterMeta));
+        filterMeta.lore(createFilterLore(player));
+
+        filter.setItemMeta(filterMeta);
+
+        gui.setItem(gui.getSize()-5, filter);
     }
 
-    private List<Component> createFilterLore(Player player, ItemMeta filterMeta){
+    private List<Component> createFilterLore(Player player){
         List<Component> lore = new ArrayList<>();
 
         String filter = "all";
@@ -117,12 +171,34 @@ public class BlocksGUI {
         if (filter != null){
 
             Component filterComp = switch (filter){
-                case "collected" -> Component.text("Blocks collected");
-                case "not_collected" -> Component.text("Blocks not collected");
-                default -> Component.text("All Blocks");
+                case "collected" -> Component.text("Blocks collected", NamedTextColor.GREEN).decoration(TextDecoration.ITALIC, false);
+                case "not_collected" -> Component.text("Blocks not collected", NamedTextColor.GREEN).decoration(TextDecoration.ITALIC, false);
+                default -> Component.text("All Blocks", NamedTextColor.GREEN).decoration(TextDecoration.ITALIC, false);
             };
 
-            lore.add(Component.text("Current Filter : " + filterComp, NamedTextColor.AQUA));
+            lore.add(Component.text("Current Filter : ", NamedTextColor.AQUA).decoration(TextDecoration.ITALIC, false)
+                    .append(filterComp));
+
+            switch (filter){
+                case "collected": {
+                    lore.add(Component.text("All Blocks", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false));
+                    lore.add(Component.text("> Blocks collected", NamedTextColor.GREEN).decoration(TextDecoration.ITALIC, false));
+                    lore.add(Component.text("Blocks not collected", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false));
+                    break;
+                }
+                case "not_collected": {
+                    lore.add(Component.text("All Blocks", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false));
+                    lore.add(Component.text("Blocks collected", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false));
+                    lore.add(Component.text("> Blocks not collected", NamedTextColor.GREEN).decoration(TextDecoration.ITALIC, false));
+                    break;
+                }
+                default: {
+                    lore.add(Component.text("> All Blocks", NamedTextColor.GREEN).decoration(TextDecoration.ITALIC, false));
+                    lore.add(Component.text("Blocks collected", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false));
+                    lore.add(Component.text("Blocks not collected", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false));
+                    break;
+                }
+            }
         }
 
         return lore;
