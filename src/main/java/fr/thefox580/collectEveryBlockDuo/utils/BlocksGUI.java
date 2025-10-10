@@ -56,7 +56,7 @@ public class BlocksGUI {
 
         List<ItemStack> blocks = new ArrayList<>();
         int index = (page-1)*35;
-        while (blocks.size() < 9*5){
+        while (index < allBlocks.size() && blocks.size() < 9*5){
             ItemStack item = ItemStack.of(allBlocks.get(index));
             ItemMeta itemMeta = item.getItemMeta();
             itemMeta.customName(item.effectiveName().color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false));
@@ -78,6 +78,7 @@ public class BlocksGUI {
         if (page > 1){
             createPrevPage(gui, page);
         }
+        createFilter(gui, player);
         createNextPage(gui, page);
 
     }
@@ -91,6 +92,40 @@ public class BlocksGUI {
         next.setItemMeta(nextMeta);
 
         gui.setItem(gui.getSize()-4, next);
+    }
+
+    private void createFilter(Inventory gui, Player player){
+
+        ItemStack filter = ItemStack.of(Material.HOPPER);
+        ItemMeta filterMeta = filter.getItemMeta();
+        filterMeta.displayName(Component.text("Previous Page", NamedTextColor.WHITE).decoration(TextDecoration.ITALIC, false));
+        filterMeta.lore(createFilterLore(player, filterMeta));
+    }
+
+    private List<Component> createFilterLore(Player player, ItemMeta filterMeta){
+        List<Component> lore = new ArrayList<>();
+
+        String filter = "all";
+
+        PersistentDataContainer pdc = player.getPersistentDataContainer();
+        if (pdc.has(new NamespacedKey(plugin, "blocks_filter"))){
+            filter = pdc.get(new NamespacedKey(plugin, "blocks_filter"), PersistentDataType.STRING);
+        } else {
+            pdc.set(new NamespacedKey(plugin, "blocks_filter"), PersistentDataType.STRING, "all");
+        }
+
+        if (filter != null){
+
+            Component filterComp = switch (filter){
+                case "collected" -> Component.text("Blocks collected");
+                case "not_collected" -> Component.text("Blocks not collected");
+                default -> Component.text("All Blocks");
+            };
+
+            lore.add(Component.text("Current Filter : " + filterComp, NamedTextColor.AQUA));
+        }
+
+        return lore;
     }
 
     private void createPrevPage(Inventory gui, int currentPage){

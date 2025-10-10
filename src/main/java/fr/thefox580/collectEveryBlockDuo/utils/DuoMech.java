@@ -7,7 +7,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Slime;
@@ -137,7 +136,36 @@ public class DuoMech implements Runnable{
                             Material.LIME_CANDLE_CAKE, Material.GREEN_CANDLE_CAKE, Material.CYAN_CANDLE_CAKE,
                             Material.LIGHT_BLUE_CANDLE_CAKE, Material.BLUE_CANDLE_CAKE, Material.PURPLE_CANDLE_CAKE,
                             Material.MAGENTA_CANDLE_CAKE, Material.PINK_CANDLE_CAKE, Material.BROWN_CANDLE_CAKE,
-                            Material.BUBBLE_COLUMN, Material.CANDLE_CAKE, Material.CARROTS, Material.POTATOES
+                            Material.BUBBLE_COLUMN, Material.CANDLE_CAKE, Material.CARROTS, Material.POTATOES,
+                            Material.CAVE_VINES, Material.CAVE_VINES_PLANT, Material.COCOA, Material.DRAGON_WALL_HEAD,
+                            Material.BEDROCK, Material.END_GATEWAY, Material.END_PORTAL,
+                            Material.END_PORTAL_FRAME, Material.NETHER_PORTAL, Material.FARMLAND,
+                            Material.FIRE, Material.DIRT_PATH, Material.POWDER_SNOW,
+                            Material.FROSTED_ICE, Material.FROGSPAWN, Material.KELP_PLANT,
+                            Material.JIGSAW, Material.LIGHT, Material.COMMAND_BLOCK,
+                            Material.CHAIN_COMMAND_BLOCK, Material.REPEATING_COMMAND_BLOCK, Material.BARRIER,
+                            Material.LAVA, Material.WATER, Material.LAVA_CAULDRON,
+                            Material.WATER_CAULDRON, Material.POWDER_SNOW_CAULDRON, Material.SPAWNER,
+                            Material.MOVING_PISTON, Material.PETRIFIED_OAK_SLAB, Material.PISTON_HEAD,
+                            Material.PITCHER_CROP, Material.POTTED_ACACIA_SAPLING, Material.POTTED_ALLIUM,
+                            Material.POTTED_AZALEA_BUSH, Material.POTTED_AZURE_BLUET, Material.POTTED_BAMBOO,
+                            Material.POTTED_BIRCH_SAPLING, Material.POTTED_BLUE_ORCHID, Material.POTTED_BROWN_MUSHROOM,
+                            Material.POTTED_CACTUS, Material.POTTED_CHERRY_SAPLING, Material.POTTED_CLOSED_EYEBLOSSOM,
+                            Material.POTTED_CORNFLOWER, Material.POTTED_CRIMSON_FUNGUS, Material.POTTED_CRIMSON_ROOTS,
+                            Material.POTTED_DANDELION, Material.POTTED_DARK_OAK_SAPLING, Material.POTTED_DEAD_BUSH,
+                            Material.POTTED_FERN, Material.POTTED_FLOWERING_AZALEA_BUSH, Material.POTTED_JUNGLE_SAPLING,
+                            Material.POTTED_LILY_OF_THE_VALLEY, Material.POTTED_MANGROVE_PROPAGULE, Material.POTTED_OAK_SAPLING,
+                            Material.POTTED_OPEN_EYEBLOSSOM, Material.POTTED_ORANGE_TULIP, Material.POTTED_OXEYE_DAISY,
+                            Material.POTTED_PALE_OAK_SAPLING, Material.POTTED_PINK_TULIP, Material.POTTED_POPPY,
+                            Material.POTTED_RED_MUSHROOM, Material.POTTED_RED_TULIP, Material.POTTED_SPRUCE_SAPLING,
+                            Material.POTTED_TORCHFLOWER, Material.POTTED_WARPED_FUNGUS, Material.POTTED_WARPED_ROOTS,
+                            Material.POTTED_WHITE_TULIP, Material.POTTED_WITHER_ROSE, Material.REDSTONE_WALL_TORCH,
+                            Material.REDSTONE_WIRE, Material.SOUL_FIRE, Material.SOUL_WALL_TORCH,
+                            Material.STRUCTURE_BLOCK, Material.STRUCTURE_VOID, Material.SWEET_BERRY_BUSH,
+                            Material.TALL_SEAGRASS, Material.TEST_BLOCK, Material.TEST_INSTANCE_BLOCK,
+                            Material.TORCHFLOWER_CROP, Material.TRIAL_SPAWNER, Material.TRIPWIRE,
+                            Material.TWISTING_VINES_PLANT, Material.WEEPING_VINES_PLANT, Material.VAULT,
+                            Material.WITHER_SKELETON_WALL_SKULL
                             ).contains(item) && item != Material.ATTACHED_MELON_STEM && item != Material.ATTACHED_PUMPKIN_STEM){
                 blocks.add(item);
             }
