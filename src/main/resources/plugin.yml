@@ -1,0 +1,10 @@
+name: CollectEveryBlockDuo
+version: '1.0.0'
+main: fr.thefox580.collectEveryBlockDuo.Main
+api-version: '1.21'
+
+commands:
+  duo:
+    description: Allow players to pair-up in duo for the game
+  blocks:
+    description: Opens a menu with all the blocks a player has collected

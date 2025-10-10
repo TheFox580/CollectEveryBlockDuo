@@ -1,0 +1,149 @@
+[02:01:39] [ServerMain/INFO]: [bootstrap] Running Java 21 (OpenJDK 64-Bit Server VM 21.0.8+9-LTS; Amazon.com Inc. Corretto-21.0.8.9.1) on Windows 11 10.0 (amd64)
+[02:01:39] [ServerMain/INFO]: [bootstrap] Loading Paper 1.21.8-60-main@29c8822 (2025-09-06T21:49:13Z) for Minecraft 1.21.8
+[02:01:41] [ServerMain/INFO]: [PluginInitializerManager] Initializing plugins...
+[02:01:42] [Paper Plugin Remapper Thread - 2/INFO]: [PluginRemapper] Remapping plugin 'C:\Users\ellio\IdeaProjects\CollectEveryBlockDuo\build\libs\CollectEveryBlockDuo-1.0.0.jar'...
+[02:01:42] [Paper Plugin Remapper Thread - 2/INFO]: [PluginRemapper] Done remapping plugin 'C:\Users\ellio\IdeaProjects\CollectEveryBlockDuo\build\libs\CollectEveryBlockDuo-1.0.0.jar' in 782ms.
+[02:01:43] [ServerMain/INFO]: [PluginInitializerManager] Initialized 1 plugin
+[02:01:43] [ServerMain/INFO]: [PluginInitializerManager] Bukkit plugins (1):
+ - CollectEveryBlockDuo (1.0.0)
+[02:01:57] [ServerMain/INFO]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, name=PROD]
+[02:02:29] [ServerMain/INFO]: Loaded 1407 recipes
+[02:02:29] [ServerMain/INFO]: Loaded 1520 advancements
+[02:02:29] [ServerMain/INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Initialising converters for DataConverter...
+[02:02:32] [ServerMain/INFO]: [ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry] Finished initialising converters for DataConverter in 2,765.8ms
+[02:02:34] [Server thread/INFO]: Starting minecraft server version 1.21.8
+[02:02:34] [Server thread/INFO]: Loading properties
+[02:02:35] [Server thread/INFO]: This server is running Paper version 1.21.8-60-main@29c8822 (2025-09-06T21:49:13Z) (Implementing API version 1.21.8-R0.1-SNAPSHOT)
+[02:02:35] [Server thread/INFO]: [spark] This server bundles the spark profiler. For more information please visit https://docs.papermc.io/paper/profiling
+[02:02:36] [Server thread/INFO]: Server Ping Player Sample Count: 12
+[02:02:36] [Server thread/INFO]: Using 4 threads for Netty based IO
+[02:02:39] [Server thread/INFO]: [MoonriseCommon] Paper is using 3 worker threads, 1 I/O threads
+[02:02:39] [Server thread/INFO]: [ChunkTaskScheduler] Chunk system is using population gen parallelism: true
+[02:02:42] [Server thread/INFO]: Default game type: SURVIVAL
+[02:02:42] [Server thread/INFO]: Generating keypair
+[02:02:42] [Server thread/INFO]: Starting Minecraft server on *:25565
+[02:02:43] [Server thread/INFO]: Using default channel type
+[02:02:43] [Server thread/INFO]: Paper: Using Java compression from Velocity.
+[02:02:43] [Server thread/INFO]: Paper: Using Java cipher from Velocity.
+[02:02:45] [Server thread/INFO]: [CollectEveryBlockDuo] Loading server plugin CollectEveryBlockDuo v1.0.0
+[02:02:46] [Server thread/INFO]: Server permissions file permissions.yml is empty, ignoring it
+[02:02:46] [Server thread/INFO]: Preparing level "world"
+[02:02:52] [Server thread/INFO]: Preparing start region for dimension minecraft:overworld
+[02:02:54] [Server thread/INFO]: Preparing spawn area: 0%
+[02:02:54] [Server thread/INFO]: Preparing spawn area: 0%
+[02:02:54] [Server thread/INFO]: Preparing spawn area: 0%
+[02:02:54] [Server thread/INFO]: Preparing spawn area: 0%
+[02:02:54] [Server thread/INFO]: Preparing spawn area: 0%
+[02:02:54] [Server thread/INFO]: Preparing spawn area: 0%
+[02:02:55] [Server thread/INFO]: Preparing spawn area: 0%
+[02:02:55] [Server thread/INFO]: Preparing spawn area: 14%
+[02:02:57] [Server thread/INFO]: Preparing spawn area: 18%
+[02:02:57] [Server thread/INFO]: Preparing spawn area: 18%
+[02:02:57] [Server thread/INFO]: Preparing spawn area: 20%
+[02:02:57] [Server thread/INFO]: Preparing spawn area: 26%
+[02:02:58] [Server thread/INFO]: Preparing spawn area: 44%
+[02:02:58] [Server thread/INFO]: Preparing spawn area: 53%
+[02:02:59] [Server thread/INFO]: Preparing spawn area: 59%
+[02:02:59] [Server thread/INFO]: Preparing spawn area: 59%
+[02:03:01] [Server thread/INFO]: Preparing spawn area: 63%
+[02:03:01] [Server thread/INFO]: Preparing spawn area: 63%
+[02:03:01] [Server thread/INFO]: Preparing spawn area: 63%
+[02:03:01] [Server thread/INFO]: Preparing spawn area: 71%
+[02:03:02] [Server thread/INFO]: Preparing spawn area: 77%
+[02:03:02] [Server thread/INFO]: Preparing spawn area: 91%
+[02:03:03] [Server thread/INFO]: Preparing spawn area: 97%
+[02:03:03] [Server thread/INFO]: Time elapsed: 11212 ms
+[02:03:03] [Server thread/INFO]: Preparing start region for dimension minecraft:the_nether
+[02:03:03] [Server thread/INFO]: Preparing spawn area: 0%
+[02:03:04] [Server thread/INFO]: Preparing spawn area: 4%
+[02:03:04] [Server thread/INFO]: Preparing spawn area: 10%
+[02:03:04] [Server thread/INFO]: Time elapsed: 1235 ms
+[02:03:04] [Server thread/INFO]: Preparing start region for dimension minecraft:the_end
+[02:03:05] [Server thread/INFO]: Preparing spawn area: 0%
+[02:03:05] [Server thread/INFO]: Preparing spawn area: 0%
+[02:03:05] [Server thread/INFO]: Preparing spawn area: 14%
+[02:03:06] [Server thread/INFO]: Preparing spawn area: 38%
+[02:03:06] [Server thread/INFO]: Time elapsed: 1513 ms
+[02:03:06] [Server thread/INFO]: [CollectEveryBlockDuo] Enabling CollectEveryBlockDuo v1.0.0
+[02:03:14] [Server thread/INFO]: [spark] Starting background profiler...
+[02:03:14] [Server thread/INFO]: [spark] The async-profiler engine is not supported for your os/arch (windows11/amd64), so the built-in Java engine will be used instead.
+[02:03:14] [Server thread/INFO]: Done preparing level "world" (28.393s)
+[02:03:14] [Server thread/INFO]: Running delayed init tasks
+[02:03:14] [Server thread/INFO]: Done (96.307s)! For help, type "help"
+[02:03:55] [User Authenticator #0/INFO]: UUID of player TheFox580 is dc833b85-3cba-4ebd-8f4d-febc09f02422
+[02:03:57] [Server thread/INFO]: >> TheFox580
+[02:03:57] [Server thread/INFO]: TheFox580[/127.0.0.1:59559] logged in with entity id 105 at ([world]12.24025798608195, 70.0, -40.35280777836223)
+[02:04:01] [User Authenticator #0/INFO]: UUID of player LeRenard580 is a5b68cfe-e546-4b63-a87d-26f065710dc1
+[02:04:06] [Server thread/INFO]: >> LeRenard580
+[02:04:06] [Server thread/INFO]: LeRenard580[/127.0.0.1:59595] logged in with entity id 154 at ([world]9.526743744802667, 70.0, -39.00423625628323)
+[02:04:06] [Server thread/WARN]: [ca.spottedleaf.moonrise.patches.chunk_system.level.entity.EntityLookup] Entity uuid already exists: 3e0836a6-3fcc-4d48-9c70-b467c254a2cf, mapped to Zombie['Zombie'/93, uuid='3e0836a6-3fcc-4d48-9c70-b467c254a2cf', l='ServerLevel[world]', x=-27.73, y=-8.00, z=-95.53, cpos=[-2, -6], tl=0, v=true], can't add Zombie['Zombie'/162, uuid='3e0836a6-3fcc-4d48-9c70-b467c254a2cf', l='ServerLevel[world]', x=-28.83, y=-8.00, z=-96.16, cpos=[-2, -7], tl=0, v=false]
+[02:04:57] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 6501ms or 130 ticks behind
+[02:05:04] [Netty Server IO #2/INFO]: Disconnecting LeRenard580 for sending keepalive response (36115290) out-of-order!
+[02:05:05] [Server thread/INFO]: LeRenard580 lost connection: Timed out
+[02:05:08] [Server thread/INFO]: << LeRenard580
+[02:05:53] [User Authenticator #1/INFO]: UUID of player LeRenard580 is a5b68cfe-e546-4b63-a87d-26f065710dc1
+[02:05:59] [Server thread/INFO]: >> LeRenard580
+[02:05:59] [Server thread/INFO]: LeRenard580[/127.0.0.1:49633] logged in with entity id 349 at ([world]9.526743744802667, 70.0, -39.00423625628323)
+[02:06:11] [Server thread/INFO]: TheFox580 issued server command: /duo join LeRenard580
+[02:06:13] [Server thread/INFO]: LeRenard580 issued server command: /duo accept
+[02:06:16] [Server thread/INFO]: TheFox580 issued server command: /blocks
+[02:07:16] [Server thread/ERROR]: Could not pass event InventoryClickEvent to CollectEveryBlockDuo v1.0.0
+java.lang.IllegalArgumentException: CARROTS isn't an item
+	at com.google.common.base.Preconditions.checkArgument(Preconditions.java:218) ~[guava-33.3.1-jre.jar:?]
+	at org.bukkit.inventory.ItemStack.of(ItemStack.java:63) ~[paper-api-1.21.8-R0.1-SNAPSHOT.jar:?]
+	at org.bukkit.inventory.ItemStack.of(ItemStack.java:49) ~[paper-api-1.21.8-R0.1-SNAPSHOT.jar:?]
+	at CollectEveryBlockDuo-1.0.0-1760054502053.jar/fr.thefox580.collectEveryBlockDuo.utils.BlocksGUI.showAllBlocks(BlocksGUI.java:60) ~[CollectEveryBlockDuo-1.0.0-1760054502053.jar:?]
+	at CollectEveryBlockDuo-1.0.0-1760054502053.jar/fr.thefox580.collectEveryBlockDuo.utils.BlocksGUI.openGUI(BlocksGUI.java:42) ~[CollectEveryBlockDuo-1.0.0-1760054502053.jar:?]
+	at CollectEveryBlockDuo-1.0.0-1760054502053.jar/fr.thefox580.collectEveryBlockDuo.listeners.onPlayerInventoryClickEvent.onInventoryClickEvent(onPlayerInventoryClickEvent.java:38) ~[CollectEveryBlockDuo-1.0.0-1760054502053.jar:?]
+	at co.aikar.timings.TimedEventExecutor.execute(TimedEventExecutor.java:80) ~[paper-api-1.21.8-R0.1-SNAPSHOT.jar:?]
+	at org.bukkit.plugin.RegisteredListener.callEvent(RegisteredListener.java:71) ~[paper-api-1.21.8-R0.1-SNAPSHOT.jar:?]
+	at io.papermc.paper.plugin.manager.PaperEventManager.callEvent(PaperEventManager.java:54) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at io.papermc.paper.plugin.manager.PaperPluginManagerImpl.callEvent(PaperPluginManagerImpl.java:131) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at org.bukkit.plugin.SimplePluginManager.callEvent(SimplePluginManager.java:628) ~[paper-api-1.21.8-R0.1-SNAPSHOT.jar:?]
+	at net.minecraft.server.network.ServerGamePacketListenerImpl.handleContainerClick(ServerGamePacketListenerImpl.java:3208) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at net.minecraft.network.protocol.game.ServerboundContainerClickPacket.handle(ServerboundContainerClickPacket.java:59) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at net.minecraft.network.protocol.game.ServerboundContainerClickPacket.handle(ServerboundContainerClickPacket.java:14) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at net.minecraft.network.protocol.PacketUtils.lambda$ensureRunningOnSameThread$0(PacketUtils.java:29) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at net.minecraft.server.TickTask.run(TickTask.java:18) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at net.minecraft.util.thread.BlockableEventLoop.doRunTask(BlockableEventLoop.java:155) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at net.minecraft.util.thread.ReentrantBlockableEventLoop.doRunTask(ReentrantBlockableEventLoop.java:24) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at net.minecraft.server.MinecraftServer.doRunTask(MinecraftServer.java:1450) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at net.minecraft.server.MinecraftServer.doRunTask(MinecraftServer.java:176) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at net.minecraft.util.thread.BlockableEventLoop.pollTask(BlockableEventLoop.java:129) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at net.minecraft.server.MinecraftServer.pollTaskInternal(MinecraftServer.java:1430) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at net.minecraft.server.MinecraftServer.pollTask(MinecraftServer.java:1424) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at net.minecraft.util.thread.BlockableEventLoop.managedBlock(BlockableEventLoop.java:139) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at net.minecraft.server.MinecraftServer.managedBlock(MinecraftServer.java:1381) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at net.minecraft.server.MinecraftServer.waitUntilNextTick(MinecraftServer.java:1389) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at net.minecraft.server.MinecraftServer.runServer(MinecraftServer.java:1266) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at net.minecraft.server.MinecraftServer.lambda$spin$2(MinecraftServer.java:310) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at java.base/java.lang.Thread.run(Thread.java:1583) ~[?:?]
+[02:08:13] [Server thread/ERROR]: Could not pass event InventoryClickEvent to CollectEveryBlockDuo v1.0.0
+java.lang.NullPointerException: null
+	at java.base/java.util.Objects.requireNonNull(Objects.java:233) ~[?:?]
+	at CollectEveryBlockDuo-1.0.0-1760054502053.jar/fr.thefox580.collectEveryBlockDuo.listeners.onPlayerInventoryClickEvent.onInventoryClickEvent(onPlayerInventoryClickEvent.java:37) ~[CollectEveryBlockDuo-1.0.0-1760054502053.jar:?]
+	at co.aikar.timings.TimedEventExecutor.execute(TimedEventExecutor.java:80) ~[paper-api-1.21.8-R0.1-SNAPSHOT.jar:?]
+	at org.bukkit.plugin.RegisteredListener.callEvent(RegisteredListener.java:71) ~[paper-api-1.21.8-R0.1-SNAPSHOT.jar:?]
+	at io.papermc.paper.plugin.manager.PaperEventManager.callEvent(PaperEventManager.java:54) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at io.papermc.paper.plugin.manager.PaperPluginManagerImpl.callEvent(PaperPluginManagerImpl.java:131) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at org.bukkit.plugin.SimplePluginManager.callEvent(SimplePluginManager.java:628) ~[paper-api-1.21.8-R0.1-SNAPSHOT.jar:?]
+	at net.minecraft.server.network.ServerGamePacketListenerImpl.handleContainerClick(ServerGamePacketListenerImpl.java:3208) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at net.minecraft.network.protocol.game.ServerboundContainerClickPacket.handle(ServerboundContainerClickPacket.java:59) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at net.minecraft.network.protocol.game.ServerboundContainerClickPacket.handle(ServerboundContainerClickPacket.java:14) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at net.minecraft.network.protocol.PacketUtils.lambda$ensureRunningOnSameThread$0(PacketUtils.java:29) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at net.minecraft.server.TickTask.run(TickTask.java:18) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at net.minecraft.util.thread.BlockableEventLoop.doRunTask(BlockableEventLoop.java:155) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at net.minecraft.util.thread.ReentrantBlockableEventLoop.doRunTask(ReentrantBlockableEventLoop.java:24) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at net.minecraft.server.MinecraftServer.doRunTask(MinecraftServer.java:1450) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at net.minecraft.server.MinecraftServer.doRunTask(MinecraftServer.java:176) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at net.minecraft.util.thread.BlockableEventLoop.pollTask(BlockableEventLoop.java:129) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at net.minecraft.server.MinecraftServer.pollTaskInternal(MinecraftServer.java:1430) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at net.minecraft.server.MinecraftServer.pollTask(MinecraftServer.java:1424) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at net.minecraft.util.thread.BlockableEventLoop.managedBlock(BlockableEventLoop.java:139) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at net.minecraft.server.MinecraftServer.managedBlock(MinecraftServer.java:1381) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at net.minecraft.server.MinecraftServer.waitUntilNextTick(MinecraftServer.java:1389) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at net.minecraft.server.MinecraftServer.runServer(MinecraftServer.java:1266) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at net.minecraft.server.MinecraftServer.lambda$spin$2(MinecraftServer.java:310) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at java.base/java.lang.Thread.run(Thread.java:1583) ~[?:?]
+[02:08:17] [Server thread/INFO]: TheFox580 issued server command: /duo quit
+[02:08:39] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 18442ms or 368 ticks behind
