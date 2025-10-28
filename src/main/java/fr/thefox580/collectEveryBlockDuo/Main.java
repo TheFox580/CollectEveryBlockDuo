@@ -38,6 +38,8 @@ public final class Main extends JavaPlugin {
         // Plugin shutdown logic
         duoMech.stopTask();
         duoMech.killAllSlimes();
+
+        blocksGUI.stopTask();
     }
 
     public DuoMech getMech() {

@@ -2,16 +2,17 @@ package fr.thefox580.collectEveryBlockDuo.utils;
 
 import fr.thefox580.collectEveryBlockDuo.Main;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import net.kyori.adventure.text.format.TextDecoration;
+import org.bukkit.*;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Slime;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -31,10 +32,6 @@ public class DuoMech implements Runnable{
 
     public void stopTask(){
         slimeTpTask.cancel();
-    }
-
-    public Map<Player, Slime> getSlimes(){
-        return chainPoint;
     }
 
     public boolean hasDuo(Player player){
@@ -61,8 +58,12 @@ public class DuoMech implements Runnable{
         }
     }
 
+    public Player getDuo(Player player){
+        return duos.get(player);
+    }
+
     public void removeDuo(Player removed){
-        Player duo = duos.get(removed);
+        Player duo = getDuo(removed);
 
         chainPoint.get(duo).remove();
         chainPoint.get(removed).remove();
@@ -78,7 +79,7 @@ public class DuoMech implements Runnable{
     }
 
     public boolean wasFound(Player player, Material block){
-        Player duo = duos.get(player);
+        Player duo = getDuo(player);
         return Objects.requireNonNull(plugin.getConfig().getStringList("blocks_"+player.getUniqueId()+"_"+duo.getUniqueId())).contains(block.getKey().getKey());
     }
 
@@ -87,7 +88,7 @@ public class DuoMech implements Runnable{
 
             if (getAllBlocks().contains(block)){
 
-                Player duo = duos.get(player);
+                Player duo = getDuo(player);
 
                 List<String> completionList = plugin.getConfig().getStringList("blocks_"+player.getUniqueId()+"_"+duo.getUniqueId());
                 completionList.add(block.getKey().getKey());
@@ -197,7 +198,7 @@ public class DuoMech implements Runnable{
         World world = request.getWorld();
         createSlime(request, world);
 
-        Player otherPlayer = duos.get(request);
+        Player otherPlayer = getDuo(request);
         createSlime(otherPlayer, world);
 
         Slime requestSlime = chainPoint.get(request);
@@ -221,23 +222,33 @@ public class DuoMech implements Runnable{
     }
 
     private void createSlime(Player player, World world) {
-        Slime requestSlime = world.spawn(player.getLocation().clone().add(0, 0.5f, 0), Slime.class, CreatureSpawnEvent.SpawnReason.CUSTOM);
+
+        Slime requestSlime = world.spawn(player.getLocation().clone().add(0, 0.6f, 0.1f), Slime.class, CreatureSpawnEvent.SpawnReason.CUSTOM);
         requestSlime.setSize(0);
+
+        Objects.requireNonNull(requestSlime.getAttribute(Attribute.SCALE)).setBaseValue(0.2f);
+
         requestSlime.setAI(false);
         requestSlime.setInvisible(true);
         requestSlime.setInvulnerable(true);
         requestSlime.setCollidable(false);
-        //player.hideEntity(plugin, requestSlime);
         chainPoint.put(player, requestSlime);
+    }
+
+    private void noLongerShowWarnMessage(Player player){
+
+        player.getPersistentDataContainer().set(new NamespacedKey(plugin, "slimeHiddenMessage"), PersistentDataType.BOOLEAN, true);
+        player.sendMessage(Component.text("We will no longer warn you about your and your partner's slimes disappearing / reappearing!", NamedTextColor.GREEN));
+
     }
 
     @Override
     public void run() {
 
         for (Player player : duos.keySet()){
-            if (player.getLocation().distanceSquared(duos.get(player).getLocation()) >= 90){
+            if (player.getLocation().distanceSquared(getDuo(player).getLocation()) >= 90){
                 Location playerLoc = player.getLocation();
-                Location linkedLoc = duos.get(player).getLocation();
+                Location linkedLoc = getDuo(player).getLocation();
 
                 player.setVelocity(linkedLoc.toVector().subtract(playerLoc.toVector()).normalize().multiply(0.2f));
             }
@@ -247,9 +258,8 @@ public class DuoMech implements Runnable{
             Slime slime = chainPoint.get(player);
 
             if (!slime.isLeashed()){
-                Player duo = duos.get(player);
+                Player duo = getDuo(player);
                 player.teleport(duo);
-                slime.teleport(player.getLocation().clone().add(0, 0.5f, 0));
 
                 Slime slimeDuo = chainPoint.get(duo);
 
@@ -270,8 +280,33 @@ public class DuoMech implements Runnable{
                     }
                 }.runTaskLater(plugin, 20L);
             }
-            slime.teleport(player.getLocation().clone().add(0, 0.5f, 0));
-        }
 
+            if (player.getLocation().getPitch() > 60){
+                if (player.canSee(slime)){
+                    player.hideEntity(plugin, slime);
+                    Player duo = getDuo(player);
+                    Slime slimeDuo = chainPoint.get(duo);
+                    player.hideEntity(plugin, slimeDuo);
+
+                    if (Boolean.FALSE.equals(player.getPersistentDataContainer().get(new NamespacedKey(plugin, "slimeHiddenMessage"), PersistentDataType.BOOLEAN))){
+                        player.sendMessage(Component.text("Your and your partner's slimes have been hidden for better visibility. Click ", NamedTextColor.RED)
+                                .append(Component.text("[HERE]", NamedTextColor.RED, TextDecoration.BOLD).clickEvent(ClickEvent.callback(audience -> noLongerShowWarnMessage(player))))
+                                .append(Component.text(" to no longer show warning message about this.", NamedTextColor.RED)));
+                    }
+                }
+            } else if (!player.canSee(slime)){
+                player.showEntity(plugin, slime);
+                Player duo = getDuo(player);
+                Slime slimeDuo = chainPoint.get(duo);
+                player.showEntity(plugin, slimeDuo);
+
+                if (Boolean.FALSE.equals(player.getPersistentDataContainer().get(new NamespacedKey(plugin, "slimeHiddenMessage"), PersistentDataType.BOOLEAN))){
+                    player.sendMessage(Component.text("Your and your partner's slimes have been shown again. Click ", NamedTextColor.RED)
+                            .append(Component.text("[HERE]", NamedTextColor.RED, TextDecoration.BOLD).clickEvent(ClickEvent.callback(audience -> noLongerShowWarnMessage(player))))
+                            .append(Component.text(" to no longer show warning message about this.", NamedTextColor.RED)));
+                }
+            }
+            slime.teleport(player.getLocation().clone().add(0, 0.65f, 0.0f));
+        }
     }
 }

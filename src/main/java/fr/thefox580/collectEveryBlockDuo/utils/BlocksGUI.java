@@ -14,17 +14,24 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class BlocksGUI {
+public class BlocksGUI implements Runnable{
 
     private final Main plugin;
+    private final BukkitTask showActionBar;
 
     public BlocksGUI(Main plugin){
         this.plugin = plugin;
+        this.showActionBar = Bukkit.getScheduler().runTaskTimer(plugin, this, 0, 5L);
+    }
+
+    public void stopTask(){
+        showActionBar.cancel();
     }
 
     public void openGUI(Player player, int page){
@@ -213,5 +220,20 @@ public class BlocksGUI {
         next.setItemMeta(nextMeta);
 
         gui.setItem(gui.getSize()-6, next);
+    }
+
+    @Override
+    public void run() {
+
+        for (Player player : Bukkit.getOnlinePlayers()){
+            if (plugin.getMech().hasDuo(player)){
+                player.sendActionBar(Component.text("In duo with : " + plugin.getMech().getDuo(player).getName() + " (" + String.format("%.02f", player.getLocation().distance(plugin.getMech().getDuo(player).getLocation())) + " blocks away)" , NamedTextColor.AQUA)
+                        .append(Component.text(" | ", NamedTextColor.AQUA, TextDecoration.BOLD))
+                        .append(Component.text("Collected : " + plugin.getMech().getCollectedBlocks(player).size() + "/" + plugin.getMech().getAllBlocks().size(), NamedTextColor.AQUA)));
+            } else {
+                player.sendActionBar(Component.text("In duo with : None", NamedTextColor.AQUA));
+            }
+        }
+
     }
 }

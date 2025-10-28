@@ -4,10 +4,12 @@ import fr.thefox580.collectEveryBlockDuo.Main;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scoreboard.Team;
 
 public class onPlayerJoinEvent implements Listener {
@@ -32,6 +34,10 @@ public class onPlayerJoinEvent implements Listener {
             }
         }
         noColTeam.addPlayer(player);
+
+        if (!player.getPersistentDataContainer().has(new NamespacedKey(plugin, "slimeHiddenMessage"))){
+            player.getPersistentDataContainer().set(new NamespacedKey(plugin, "slimeHiddenMessage"), PersistentDataType.BOOLEAN, false);
+        }
 
         event.joinMessage(Component.text(">> " + player.getName(), NamedTextColor.GREEN));
     }
