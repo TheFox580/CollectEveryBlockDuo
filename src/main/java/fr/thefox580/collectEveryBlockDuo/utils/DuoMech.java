@@ -119,7 +119,7 @@ public class DuoMech implements Runnable{
                             Material.MANGROVE_WALL_HANGING_SIGN, Material.MANGROVE_WALL_SIGN, Material.OAK_WALL_HANGING_SIGN,
                             Material.OAK_WALL_SIGN, Material.WARPED_WALL_HANGING_SIGN, Material.WARPED_WALL_SIGN,
                             Material.PALE_OAK_WALL_HANGING_SIGN, Material.PALE_OAK_WALL_SIGN, Material.SPRUCE_WALL_HANGING_SIGN,
-                            Material.SPRUCE_WALL_SIGN, Material.CREEPER_WALL_HEAD, Material.PLAYER_WALL_HEAD,
+                            Material.SPRUCE_WALL_SIGN, Material.CREEPER_WALL_HEAD, Material.PLAYER_HEAD, Material.PLAYER_WALL_HEAD,
                             Material.ZOMBIE_WALL_HEAD, Material.SKELETON_WALL_SKULL, Material.PIGLIN_WALL_HEAD,
                             Material.DEAD_BRAIN_CORAL_WALL_FAN, Material.DEAD_BUBBLE_CORAL_WALL_FAN, Material.DEAD_FIRE_CORAL_WALL_FAN,
                             Material.DEAD_HORN_CORAL_WALL_FAN, Material.DEAD_TUBE_CORAL_WALL_FAN, Material.BRAIN_CORAL_WALL_FAN,

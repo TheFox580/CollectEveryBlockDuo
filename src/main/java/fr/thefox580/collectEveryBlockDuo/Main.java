@@ -69,5 +69,6 @@ public final class Main extends JavaPlugin {
         new onPlayerItemPickupEvent(this);
         new onPlayerItemCraftEvent(this);
         new onPlayerInventoryClickEvent(this);
+        new onPlayerMessageEvent(this);
     }
 }

@@ -44,32 +44,36 @@ public class DuoCommand implements CommandExecutor, TabCompleter {
 
             if (args.length == 1){
                 NamespacedKey key = new NamespacedKey(plugin, "request");
-                if (args[0].equals("accept")){
-                    if (player.getPersistentDataContainer().has(key)){
-                        String name = Objects.requireNonNull(player.getPersistentDataContainer().get(key, PersistentDataType.STRING));
-                        OfflinePlayer requester = Objects.requireNonNull(Bukkit.getOfflinePlayer(UUID.fromString(name)));
-                        if (requester.isOnline()){
-                            Player requesterOnline = Objects.requireNonNull(requester.getPlayer());
-                            plugin.getMech().addDuo(player, requesterOnline);
-                        } else {
-                            player.sendMessage(Component.text(requester.getName() + " is offline, try again later.", NamedTextColor.RED));
+                switch (args[0]) {
+                    case "accept" -> {
+                        if (player.getPersistentDataContainer().has(key)) {
+                            String name = Objects.requireNonNull(player.getPersistentDataContainer().get(key, PersistentDataType.STRING));
+                            OfflinePlayer requester = Objects.requireNonNull(Bukkit.getOfflinePlayer(UUID.fromString(name)));
+                            if (requester.isOnline()) {
+                                Player requesterOnline = Objects.requireNonNull(requester.getPlayer());
+                                plugin.getMech().addDuo(player, requesterOnline);
+                            } else {
+                                player.sendMessage(Component.text(requester.getName() + " is offline, try again later.", NamedTextColor.RED));
+                                return false;
+                            }
+                            player.getPersistentDataContainer().remove(key);
+                        }
+                    }
+                    case "deny", "refuse" -> {
+                        if (player.getPersistentDataContainer().has(key)) {
+                            String name = Objects.requireNonNull(player.getPersistentDataContainer().get(key, PersistentDataType.STRING));
+                            OfflinePlayer requester = Objects.requireNonNull(Bukkit.getOfflinePlayer(UUID.fromString(name)));
+                            player.getPersistentDataContainer().remove(key);
+                            player.sendMessage(Component.text("You refused " + requester.getName() + "'s request.", NamedTextColor.RED));
                             return false;
                         }
-                        player.getPersistentDataContainer().remove(key);
                     }
-                } else if (args[0].equals("deny") || args[0].equals("refuse")){
-                    if (player.getPersistentDataContainer().has(key)){
-                        String name = Objects.requireNonNull(player.getPersistentDataContainer().get(key, PersistentDataType.STRING));
-                        OfflinePlayer requester = Objects.requireNonNull(Bukkit.getOfflinePlayer(UUID.fromString(name)));
-                        player.getPersistentDataContainer().remove(key);
-                        player.sendMessage(Component.text("You refused " + requester.getName() + "'s request.", NamedTextColor.RED));
-                        return false;
-                    }
-                } else if (args[0].equals("leave") || args[0].equals("quit")){
-                    if (plugin.getMech().hasDuo(player)){
-                        plugin.getMech().removeDuo(player);
-                    } else {
-                        return false;
+                    case "leave", "quit" -> {
+                        if (plugin.getMech().hasDuo(player)) {
+                            plugin.getMech().removeDuo(player);
+                        } else {
+                            return false;
+                        }
                     }
                 }
             } else if (args.length == 2 && (args[0].equals("join") || args[0].equals("request"))){
@@ -80,6 +84,7 @@ public class DuoCommand implements CommandExecutor, TabCompleter {
                         Player requestedOnline = Objects.requireNonNull(requested.getPlayer());
 
                         if (plugin.getMech().hasDuo(requestedOnline)){
+                            player.sendMessage(Component.text(requested.getName() + " already is in a duo with " + plugin.getMech().getDuo(requestedOnline).getName() + ".", NamedTextColor.RED));
                             return false;
                         }
 

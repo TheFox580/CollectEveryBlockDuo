@@ -4,6 +4,7 @@ import fr.thefox580.collectEveryBlockDuo.Main;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -18,6 +19,7 @@ import org.bukkit.scheduler.BukkitTask;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class BlocksGUI implements Runnable{
@@ -35,9 +37,14 @@ public class BlocksGUI implements Runnable{
     }
 
     public void openGUI(Player player, int page){
-        Inventory gui = Bukkit.createInventory(null, 9*6, Component.text("Blocks List"));
+        Inventory gui = Bukkit.createInventory(null, 9*6, Component.text("ERROR_CODE:NO_FILTER_SETTING_FOUND"));
+
+        for (int i = 0; i < 9*6; i++){
+            gui.addItem(ItemStack.of(Material.RED_STAINED_GLASS_PANE));
+        }
 
         PersistentDataContainer pdc = player.getPersistentDataContainer();
+        pdc.set(new NamespacedKey(plugin, "search"), PersistentDataType.BOOLEAN, false);
 
         if (!pdc.has(new NamespacedKey(plugin,"blocks_filter"))){
             pdc.set(new NamespacedKey(plugin,"blocks_filter"),
@@ -46,11 +53,52 @@ public class BlocksGUI implements Runnable{
         }
 
         if (Objects.equals(pdc.get(new NamespacedKey(plugin, "blocks_filter"), PersistentDataType.STRING), "all")){
+            int size = plugin.getMech().getAllBlocks().size() / (9*5) + 1;
+            gui = Bukkit.createInventory(null, 9*6, Component.text("Blocks List (Page " + page + " / " + size + ")"));
             showAllBlocks(gui, player, page);
         } else if (Objects.equals(pdc.get(new NamespacedKey(plugin, "blocks_filter"), PersistentDataType.STRING), "collected")){
+            int size = plugin.getMech().getCollectedBlocks(player).size() / (9*5) + 1;
+            gui = Bukkit.createInventory(null, 9*6, Component.text("Blocks List (Page " + page + " / " + size + ")"));
             showCollectedBlocks(gui, player, page);
         } else if (Objects.equals(pdc.get(new NamespacedKey(plugin, "blocks_filter"), PersistentDataType.STRING), "not_collected")){
+            int size = plugin.getMech().getNotCollectedBlocks(player).size() / (9*5) + 1;
+            gui = Bukkit.createInventory(null, 9*6, Component.text("Blocks List (Page " + page + " / " + size + ")"));
             showNotCollectedBlocks(gui, player, page);
+        } else {
+            player.sendMessage(Component.text("There was an error initializing the GUI, contact TheFox580 if that error persists.\nERROR_CODE:NO_FILTER_SETTING_FOUND", NamedTextColor.RED));
+        }
+
+        player.openInventory(gui);
+    }
+
+    public void openGUISearch(Player player, int page, String search){
+        Inventory gui = Bukkit.createInventory(null, 9*6, Component.text("ERROR_CODE:NO_FILTER_SETTING_FOUND"));
+
+        for (int i = 0; i < 9*6; i++){
+            gui.addItem(ItemStack.of(Material.RED_STAINED_GLASS_PANE));
+        }
+
+        PersistentDataContainer pdc = player.getPersistentDataContainer();
+        pdc.set(new NamespacedKey(plugin, "search"), PersistentDataType.BOOLEAN, false);
+
+        if (!pdc.has(new NamespacedKey(plugin,"blocks_filter"))){
+            pdc.set(new NamespacedKey(plugin,"blocks_filter"),
+                    PersistentDataType.STRING,
+                    "all");
+        }
+
+        if (Objects.equals(pdc.get(new NamespacedKey(plugin, "blocks_filter"), PersistentDataType.STRING), "all")){
+            int size = plugin.getMech().getAllBlocks().stream().filter(material -> PlainTextComponentSerializer.plainText().serialize(ItemStack.of(material).effectiveName()).toLowerCase(Locale.ROOT).contains(search)).toList().size() / (9*5) + 1;
+            gui = Bukkit.createInventory(null, 9*6, Component.text("Blocks List : Search (Page " + page + " / " + size + ")"));
+            showAllBlocksSearch(gui, player, page, search);
+        } else if (Objects.equals(pdc.get(new NamespacedKey(plugin, "blocks_filter"), PersistentDataType.STRING), "collected")){
+            int size = plugin.getMech().getCollectedBlocks(player).stream().filter(material -> PlainTextComponentSerializer.plainText().serialize(ItemStack.of(material).effectiveName()).toLowerCase(Locale.ROOT).contains(search)).toList().size() / (9*5) + 1;
+            gui = Bukkit.createInventory(null, 9*6, Component.text("Blocks List : Search (Page " + page + " / " + size + ")"));
+            showCollectedBlocksSearch(gui, player, page, search);
+        } else if (Objects.equals(pdc.get(new NamespacedKey(plugin, "blocks_filter"), PersistentDataType.STRING), "not_collected")){
+            int size = plugin.getMech().getNotCollectedBlocks(player).stream().filter(material -> PlainTextComponentSerializer.plainText().serialize(ItemStack.of(material).effectiveName()).toLowerCase(Locale.ROOT).contains(search)).toList().size() / (9*5) + 1;
+            gui = Bukkit.createInventory(null, 9*6, Component.text("Blocks List : Search (Page " + page + " / " + size + ")"));
+            showNotCollectedBlocksSearch(gui, player, page, search);
         } else {
             player.sendMessage(Component.text("There was an error initializing the GUI, contact TheFox580 if that error persists.\nERROR_CODE:NO_FILTER_SETTING_FOUND", NamedTextColor.RED));
         }
@@ -69,7 +117,7 @@ public class BlocksGUI implements Runnable{
             itemMeta.customName(item.effectiveName().color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false));
             if (plugin.getMech().wasFound(player, item.getType())){
                 itemMeta.addEnchant(Enchantment.MENDING, 1, true);
-                itemMeta.customName(Objects.requireNonNull(itemMeta.customName()).append(Component.text(" (Completed)")));
+                itemMeta.customName(Objects.requireNonNull(itemMeta.customName()).append(Component.text(" (Collected)")));
                 itemMeta.customName(Objects.requireNonNull(itemMeta.customName()).color(NamedTextColor.GREEN));
             }
 
@@ -93,7 +141,7 @@ public class BlocksGUI implements Runnable{
             ItemMeta itemMeta = item.getItemMeta();
             itemMeta.customName(item.effectiveName().color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false));
             itemMeta.addEnchant(Enchantment.MENDING, 1, true);
-            itemMeta.customName(Objects.requireNonNull(itemMeta.customName()).append(Component.text(" (Completed)")));
+            itemMeta.customName(Objects.requireNonNull(itemMeta.customName()).append(Component.text(" (Collected)")));
             itemMeta.customName(Objects.requireNonNull(itemMeta.customName()).color(NamedTextColor.GREEN));
 
             item.setItemMeta(itemMeta);
@@ -126,15 +174,87 @@ public class BlocksGUI implements Runnable{
 
     }
 
+    private void showAllBlocksSearch(Inventory gui, Player player, int page, String search){
+        List<Material> allBlocks = plugin.getMech().getAllBlocks().stream().filter(material -> PlainTextComponentSerializer.plainText().serialize(ItemStack.of(material).effectiveName()).toLowerCase(Locale.ROOT).contains(search)).toList();
+
+        List<ItemStack> blocks = new ArrayList<>();
+        int index = 45*(page-1);
+        while (index < allBlocks.size() && blocks.size() < 9*5){
+            ItemStack item = ItemStack.of(allBlocks.get(index));
+            ItemMeta itemMeta = item.getItemMeta();
+            itemMeta.customName(item.effectiveName().color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false));
+            if (plugin.getMech().wasFound(player, item.getType())){
+                itemMeta.addEnchant(Enchantment.MENDING, 1, true);
+                itemMeta.customName(Objects.requireNonNull(itemMeta.customName()).append(Component.text(" (Collected)")));
+                itemMeta.customName(Objects.requireNonNull(itemMeta.customName()).color(NamedTextColor.GREEN));
+            }
+
+            item.setItemMeta(itemMeta);
+
+            blocks.add(item);
+            index++;
+        }
+
+        createFinalGUIPart(gui, player, page, blocks, index, allBlocks.size());
+
+    }
+
+    private void showCollectedBlocksSearch(Inventory gui, Player player, int page, String search){
+        List<Material> collectedBlocks = plugin.getMech().getCollectedBlocks(player).stream().filter(material -> PlainTextComponentSerializer.plainText().serialize(ItemStack.of(material).effectiveName()).toLowerCase(Locale.ROOT).contains(search)).toList();
+
+        List<ItemStack> blocks = new ArrayList<>();
+        int index = 45*(page-1);
+        while (index < collectedBlocks.size() && blocks.size() < 9*5){
+            ItemStack item = ItemStack.of(collectedBlocks.get(index));
+            ItemMeta itemMeta = item.getItemMeta();
+            itemMeta.customName(item.effectiveName().color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false));
+            itemMeta.addEnchant(Enchantment.MENDING, 1, true);
+            itemMeta.customName(Objects.requireNonNull(itemMeta.customName()).append(Component.text(" (Collected)")));
+            itemMeta.customName(Objects.requireNonNull(itemMeta.customName()).color(NamedTextColor.GREEN));
+
+            item.setItemMeta(itemMeta);
+
+            blocks.add(item);
+            index++;
+        }
+
+        createFinalGUIPart(gui, player, page, blocks, index, collectedBlocks.size());
+
+    }
+
+    private void showNotCollectedBlocksSearch(Inventory gui, Player player, int page, String search){
+        List<Material> notCollectedBlocks = plugin.getMech().getNotCollectedBlocks(player).stream().filter(material -> PlainTextComponentSerializer.plainText().serialize(ItemStack.of(material).effectiveName()).toLowerCase(Locale.ROOT).contains(search)).toList();
+
+        List<ItemStack> blocks = new ArrayList<>();
+        int index = 45*(page-1);
+        while (index < notCollectedBlocks.size() && blocks.size() < 9*5){
+            ItemStack item = ItemStack.of(notCollectedBlocks.get(index));
+            ItemMeta itemMeta = item.getItemMeta();
+            itemMeta.customName(item.effectiveName().color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false));
+
+            item.setItemMeta(itemMeta);
+
+            blocks.add(item);
+            index++;
+        }
+
+        createFinalGUIPart(gui, player, page, blocks, index, notCollectedBlocks.size());
+
+    }
+
     private void createFinalGUIPart(Inventory gui, Player player, int page, List<ItemStack> shownBlocks, int finalIndex, int sizeList){
         for (ItemStack itemStack : shownBlocks){
             gui.addItem(itemStack);
         }
 
+        createSearch(gui);
+
         if (page > 1){
             createPrevPage(gui, page);
         }
+
         createFilter(gui, player);
+
         if (finalIndex < sizeList){
             createNextPage(gui, page);
         }
@@ -222,14 +342,42 @@ public class BlocksGUI implements Runnable{
         gui.setItem(gui.getSize()-6, next);
     }
 
+    private void createSearch(Inventory gui){
+
+        ItemStack search = ItemStack.of(Material.COMPASS);
+        ItemMeta searchMeta = search.getItemMeta();
+        searchMeta.displayName(Component.text("Search", NamedTextColor.WHITE).decoration(TextDecoration.ITALIC, false));
+        searchMeta.lore(List.of(Component.text("Click here and type in chat", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false),
+                Component.text("what you're looking for,", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false),
+                Component.text("we'll try to show you what", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false),
+                Component.text("you asked as best as possible", NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)));
+
+        search.setItemMeta(searchMeta);
+
+        gui.setItem(gui.getSize()-9, search);
+    }
+
     @Override
     public void run() {
 
         for (Player player : Bukkit.getOnlinePlayers()){
             if (plugin.getMech().hasDuo(player)){
-                player.sendActionBar(Component.text("In duo with : " + plugin.getMech().getDuo(player).getName() + " (" + String.format("%.02f", player.getLocation().distance(plugin.getMech().getDuo(player).getLocation())) + " blocks away)" , NamedTextColor.AQUA)
-                        .append(Component.text(" | ", NamedTextColor.AQUA, TextDecoration.BOLD))
-                        .append(Component.text("Collected : " + plugin.getMech().getCollectedBlocks(player).size() + "/" + plugin.getMech().getAllBlocks().size(), NamedTextColor.AQUA)));
+
+                Component actionBarComponent = Component.text("In duo with : " + plugin.getMech().getDuo(player).getName(), NamedTextColor.AQUA);
+
+                //
+
+                if (player.getLocation().distance(plugin.getMech().getDuo(player).getLocation()) < 9){
+                    actionBarComponent = actionBarComponent.append(Component.text(" (" + String.format("%.02f", player.getLocation().distance(plugin.getMech().getDuo(player).getLocation())) + " blocks away)", NamedTextColor.GREEN));
+                } else {
+                    actionBarComponent = actionBarComponent.append(Component.text(" (" + String.format("%.02f", player.getLocation().distance(plugin.getMech().getDuo(player).getLocation())) + " blocks away)", NamedTextColor.RED));
+                }
+
+                actionBarComponent = actionBarComponent.append(Component.text(" | ", NamedTextColor.AQUA, TextDecoration.BOLD))
+                        .append(Component.text("Collected : " + plugin.getMech().getCollectedBlocks(player).size() + "/" + plugin.getMech().getAllBlocks().size() + " (" + String.format("%.02f", (float) plugin.getMech().getCollectedBlocks(player).size() / plugin.getMech().getAllBlocks().size() * 100) + "%)", NamedTextColor.AQUA));
+
+                player.sendActionBar(actionBarComponent);
+
             } else {
                 player.sendActionBar(Component.text("In duo with : None", NamedTextColor.AQUA));
             }
