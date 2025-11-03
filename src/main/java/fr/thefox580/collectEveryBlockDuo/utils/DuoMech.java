@@ -52,6 +52,14 @@ public class DuoMech implements Runnable{
             duos.put(player2, player1);
 
             createLink(player1);
+
+            plugin.getStats().createStats(player1);
+            plugin.getStats().createStats(player2);
+
+            if (!player2.getPersistentDataContainer().has(new NamespacedKey(plugin, "blocks_broken_with_"+player1.getUniqueId()))){
+                player2.getPersistentDataContainer().set(new NamespacedKey(plugin, "blocks_broken_with_"+player1.getUniqueId()), PersistentDataType.INTEGER, 0);
+            }
+
         } else {
             player1.sendMessage(Component.text("You're too far away from " + player2.getName() + "! Get within 12 blocks to be chained to them.", NamedTextColor.RED));
             player2.sendMessage(Component.text("You're too far away from " + player1.getName() + "! Get within 12 blocks to be chained to them.", NamedTextColor.RED));
@@ -98,13 +106,16 @@ public class DuoMech implements Runnable{
 
                 plugin.saveConfig();
 
+                int blocksCollected = Objects.requireNonNull(player.getPersistentDataContainer().get(new NamespacedKey(plugin, "blocks_collected_with_"+duo.getUniqueId()), PersistentDataType.INTEGER));
+                player.getPersistentDataContainer().set(new NamespacedKey(plugin, "blocks_collected_with_"+duo.getUniqueId()), PersistentDataType.INTEGER, blocksCollected+1);
+
                 ItemStack item = new ItemStack(block);
 
                 Bukkit.broadcast(Component.text(player.getName() + " and " + duo.getName() + " found ", NamedTextColor.AQUA)
                         .append(item.displayName().color(NamedTextColor.AQUA))
                         .append(Component.text(". (" + completionList.size() + "/" + getAllBlocks().size() + ")")));
             }
-            }
+        }
     }
 
     public List<Material> getAllBlocks(){

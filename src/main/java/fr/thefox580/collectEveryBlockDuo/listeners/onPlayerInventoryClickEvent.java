@@ -43,26 +43,26 @@ public class onPlayerInventoryClickEvent implements Listener {
                 } else if (PlainTextComponentSerializer.plainText().serialize(event.getView().title()).contains("Blocks List")){
                     event.setCancelled(true);
                     ItemStack item = event.getCurrentItem();
-                    if (item != null){
-                        if (item.getType() == Material.EMERALD || item.getType() == Material.REDSTONE){
-                            if (PlainTextComponentSerializer.plainText().serialize(event.getView().title()).contains("Search")){
-                                plugin.getBlocksGUI().openGUISearch(player, item.getAmount(), player.getPersistentDataContainer().get(new NamespacedKey(plugin, "searched_word"), PersistentDataType.STRING));
-                            } else {
-                                plugin.getBlocksGUI().openGUI(player, item.getAmount());
-                            }
-                        } else if (item.getType() == Material.COMPASS){
-                            PersistentDataContainer pdc = player.getPersistentDataContainer();
-                            pdc.set(new NamespacedKey(plugin, "search"), PersistentDataType.BOOLEAN, true);
-                            player.closeInventory(InventoryCloseEvent.Reason.PLUGIN);
-                            player.sendMessage(Component.text("Type in chat to search for blocks with a specific name", NamedTextColor.WHITE)
+                            if (item != null){
+                                if (item.getType() == Material.EMERALD || item.getType() == Material.REDSTONE){
+                                    if (PlainTextComponentSerializer.plainText().serialize(event.getView().title()).contains("Search")){
+                                        plugin.getBlocksGUI().openGUISearch(player, item.getAmount(), player.getPersistentDataContainer().get(new NamespacedKey(plugin, "searched_word"), PersistentDataType.STRING));
+                                    } else {
+                                        plugin.getBlocksGUI().openGUI(player, item.getAmount());
+                                    }
+                                } else if (item.getType() == Material.COMPASS){
+                                    PersistentDataContainer pdc = player.getPersistentDataContainer();
+                                    pdc.set(new NamespacedKey(plugin, "search"), PersistentDataType.BOOLEAN, true);
+                                    player.closeInventory(InventoryCloseEvent.Reason.PLUGIN);
+                                    player.sendMessage(Component.text("Type in chat to search for blocks with a specific name", NamedTextColor.WHITE)
                                             .appendNewline()
                                             .append(Component.text("(or type /blocks (or click on this message) to clear the search result)", NamedTextColor.GRAY)
                                                     .clickEvent(ClickEvent.callback(clicker -> plugin.getBlocksGUI().openGUI(player, 1)))));
-                        } else if (event.getSlot() == event.getView().getTopInventory().getSize() - 5){
+                                } else if (event.getSlot() == event.getView().getTopInventory().getSize() - 5){
 
-                            String filter = "all";
+                                    String filter = "all";
 
-                            PersistentDataContainer pdc = player.getPersistentDataContainer();
+                                    PersistentDataContainer pdc = player.getPersistentDataContainer();
                             if (pdc.has(new NamespacedKey(plugin, "blocks_filter"))){
                                 filter = pdc.get(new NamespacedKey(plugin, "blocks_filter"), PersistentDataType.STRING);
                             }

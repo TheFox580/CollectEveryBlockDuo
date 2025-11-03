@@ -5,6 +5,7 @@ import fr.thefox580.collectEveryBlockDuo.commands.DuoCommand;
 import fr.thefox580.collectEveryBlockDuo.listeners.*;
 import fr.thefox580.collectEveryBlockDuo.utils.BlocksGUI;
 import fr.thefox580.collectEveryBlockDuo.utils.DuoMech;
+import fr.thefox580.collectEveryBlockDuo.utils.Stats;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Team;
@@ -13,6 +14,7 @@ public final class Main extends JavaPlugin {
 
     private DuoMech duoMech;
     private BlocksGUI blocksGUI;
+    private Stats stats;
     private Team noColTeam;
 
     @Override
@@ -21,6 +23,7 @@ public final class Main extends JavaPlugin {
 
         duoMech = new DuoMech(this);
         blocksGUI = new BlocksGUI(this);
+        stats = new Stats(this);
 
         noColTeam = Bukkit.getServer().getScoreboardManager().getMainScoreboard().getTeam("no_collision");
         if (noColTeam == null) {
@@ -40,6 +43,8 @@ public final class Main extends JavaPlugin {
         duoMech.killAllSlimes();
 
         blocksGUI.stopTask();
+
+        stats.stopTask();
     }
 
     public DuoMech getMech() {
@@ -48,6 +53,10 @@ public final class Main extends JavaPlugin {
 
     public BlocksGUI getBlocksGUI(){
         return blocksGUI;
+    }
+
+    public Stats getStats(){
+        return stats;
     }
 
     public Team getNoColTeam(){
@@ -70,5 +79,6 @@ public final class Main extends JavaPlugin {
         new onPlayerItemCraftEvent(this);
         new onPlayerInventoryClickEvent(this);
         new onPlayerMessageEvent(this);
+        new onPlayerDeathEvent(this);
     }
 }

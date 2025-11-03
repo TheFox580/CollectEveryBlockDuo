@@ -75,6 +75,16 @@ public class DuoCommand implements CommandExecutor, TabCompleter {
                             return false;
                         }
                     }
+                    case "stats" -> {
+                        if (plugin.getMech().hasDuo(player)) {
+                            List<Component> stats = plugin.getStats().get(player);
+                            for (Component text : stats){
+                                player.sendMessage(text);
+                            }
+                        } else {
+                            return false;
+                        }
+                    }
                 }
             } else if (args.length == 2 && (args[0].equals("join") || args[0].equals("request"))){
                 if (!args[1].equals(player.getName())){
@@ -118,21 +128,34 @@ public class DuoCommand implements CommandExecutor, TabCompleter {
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, String[] args) {
         List<String> tab = new ArrayList<>();
 
-        switch (args.length) {
-            case 1:
-                tab.add("accept");
-                tab.add("refuse");
-                tab.add("quit");
-                tab.add("join");
+        if (sender instanceof Player player){
 
-                break;
-            case 2:
-                if (args[0].equals("join"))
-                    for (Player loopPlayer : Bukkit.getOnlinePlayers()) {
-                        tab.add(loopPlayer.getName());
+            switch (args.length) {
+                case 1:
+                    if (plugin.getMech().hasDuo(player)){
+                        tab.add("quit");
+                        tab.add("stats");
+                    } else {
+                        tab.add("join");
+                        if (player.getPersistentDataContainer().has(new NamespacedKey(plugin, "request"))){
+                            tab.add("accept");
+                            tab.add("refuse");
+                        }
                     }
 
-                break;
+                    break;
+                case 2:
+                    if (!plugin.getMech().hasDuo(player)){
+                        if (args[0].equals("join")){
+                            for (Player loopPlayer : Bukkit.getOnlinePlayers()) {
+                                if (!plugin.getMech().hasDuo(loopPlayer)){
+                                    tab.add(loopPlayer.getName());
+                                }
+                            }
+                        }
+                    }
+                    break;
+            }
         }
         return tab.stream().filter(completion -> completion.startsWith(args[args.length - 1])).toList();
     }
